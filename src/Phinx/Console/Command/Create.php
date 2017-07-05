@@ -339,6 +339,8 @@ class Create extends AbstractCommand
 				if ($timestamp) {
 					$tableValues .= "\n\t\t      ->addTimestamps(null)";
 				}
+			} else {
+				$tableValues = "//\$table->addColumn(<column_name>, <type>, array('null' => <true/false>))";
 			}
 			// insert data in classes in order to inject it in the template
 			$classes[":tableName"]   = $tableName;
@@ -348,8 +350,15 @@ class Create extends AbstractCommand
 		/* ADD TEMPLATE */
 		
 		if (strpos($className, "Add") === 0) {
-			$contents    = file_get_contents($this->getMigrationTemplateFolder() . "Migration.template.add.php.dist");
-			$tableName   = strpos($className, "To") + 2;
+			$contents  = file_get_contents($this->getMigrationTemplateFolder() . "Migration.template.add.php.dist");
+			$tableName = strpos($className, "To") + 2;
+
+			if ($tableName === false) {
+				throw new \InvalidArgumentException(sprintf(
+					'Invalid class name! model: AddXXXToYYY.'
+					));
+			}
+
 			$tableName   = substr($className, $tableName);
 			$tmp         = preg_split('/(?=[A-Z])/', $tableName, -1, PREG_SPLIT_NO_EMPTY);
 			$tableName   = strtolower(implode("_", $tmp));
@@ -394,6 +403,8 @@ class Create extends AbstractCommand
 				if ($timestamp) {
 					$tableValues .= "\n\t\t      ->addTimestamps(null)";
 				}
+			} else {
+				$tableValues = "//\$table->addColumn('<column_name>', '<type>', array('null' => <true/false>))";
 			}
 			// insert data in classes in order to inject it in the template
 			$classes[":tableName"]   = $tableName;
@@ -403,8 +414,15 @@ class Create extends AbstractCommand
 		/* REMOVE TEMPLATE */
 		
 		if (strpos($className, "Remove") === 0) {
-			$contents    = file_get_contents($this->getMigrationTemplateFolder() . "Migration.template.remove.php.dist");
-			$tableName   = strpos($className, "From") + 4;
+			$contents  = file_get_contents($this->getMigrationTemplateFolder() . "Migration.template.remove.php.dist");
+			$tableName = strpos($className, "From") + 4;
+
+			if ($tableName === false) {
+				throw new \InvalidArgumentException(sprintf(
+					'Invalid class name! model: RemoveXXXFromYYY.'
+					));
+			}
+
 			$tableName   = substr($className, $tableName);
 			$tmp         = preg_split('/(?=[A-Z])/', $tableName, -1, PREG_SPLIT_NO_EMPTY);
 			$tableName   = strtolower(implode("_", $tmp));
@@ -438,6 +456,8 @@ class Create extends AbstractCommand
 					}
 					$tableValues .= "\n\t\t      ->removeColumn(updated_at)";
 				}
+			} else {
+				$tableValues = "//\$table->removeColumn('<column_name>')";
 			}
 			// insert data in classes in order to inject it in the template
 			$classes[":tableName"]   = $tableName;
