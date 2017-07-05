@@ -36,3 +36,7 @@ phpunit.xml
 
 # sqlite test database
 phinx_testing.sqlite3
+
+\.history/
+
+migrations/

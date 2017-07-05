@@ -52,6 +52,13 @@ abstract class AbstractCommand extends Command
     const DEFAULT_MIGRATION_TEMPLATE = '/../../Migration/Migration.template.php.dist';
 
     /**
+     * The location of the default migration template.
+     */
+    const DEFAULT_MIGRATION_TEMPLATE_FOLDER = '/../../Migration/templates/';
+
+
+
+    /**
      * The location of the default seed template.
      */
     const DEFAULT_SEED_TEMPLATE = '/../../Seed/Seed.template.php.dist';
@@ -348,6 +355,16 @@ abstract class AbstractCommand extends Command
     protected function getMigrationTemplateFilename()
     {
         return __DIR__ . self::DEFAULT_MIGRATION_TEMPLATE;
+    }
+
+    /**
+     * Returns the migration template folder.
+     *
+     * @return string
+     */
+    protected function getMigrationTemplateFolder()
+    {
+        return __DIR__ . self::DEFAULT_MIGRATION_TEMPLATE_FOLDER;
     }
 
     /**

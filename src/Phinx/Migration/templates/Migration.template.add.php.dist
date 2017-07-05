@@ -32,6 +32,10 @@ class :className extends :baseClassName
 	 * Remember to call "create()" or "update()" and NOT "save()" when working
 	 * with the Table class.
 	 */
+
 	public function change() {
+		$table = $this->table(':tableName');
+		:tableValues
+		      ->update();
 	}
 }
